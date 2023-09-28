@@ -12,12 +12,13 @@ import com.example.vehicam.databinding.ActivityMainBinding
 
 class  MainActivity : AppCompatActivity() {
 
+    private lateinit var bindingMain: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        bindingMain = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(bindingMain.root)
 
-        binding.btnTakePicture.isEnabled = false
+        bindingMain.btnTakePicture.isEnabled = false
 
         // memunculkan dialog permisson
         if (ActivityCompat.checkSelfPermission(
@@ -27,11 +28,11 @@ class  MainActivity : AppCompatActivity() {
         ) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 100)
         } else {
-            binding.btnTakePicture.isEnabled = true
+            bindingMain.btnTakePicture.isEnabled = true
         }
 
         // ketika button take di klik ia memanggil camera
-        binding.btnTakePicture.setOnClickListener {
+        bindingMain.btnTakePicture.setOnClickListener {
             val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(i, 101)
         }
@@ -40,11 +41,9 @@ class  MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         if (requestCode == 101){
             var picture: Bitmap? = data?.getParcelableExtra("data")
-            binding.imgView.setImageBitmap(picture)
+            bindingMain.imgView.setImageBitmap(picture)
         }
     }
 
@@ -54,10 +53,8 @@ class  MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            binding.btnTakePicture.isEnabled = false
+            bindingMain.btnTakePicture.isEnabled = false
         }
     }
 }
