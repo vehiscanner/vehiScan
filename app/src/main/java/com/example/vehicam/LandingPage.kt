@@ -1,5 +1,6 @@
 package com.example.vehicam
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.vehicam.databinding.LandingPageBinding
@@ -13,9 +14,11 @@ class LandingPage : AppCompatActivity(){
         supportActionBar?.hide()
         bindingPage= LandingPageBinding.inflate(layoutInflater)
         setContentView(bindingPage.root)
-        // Tulis kode logika aplikasi Anda di sini
 
-
+        bindingPage.getStarted.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }
