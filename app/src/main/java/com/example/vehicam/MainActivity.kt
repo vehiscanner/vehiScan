@@ -13,10 +13,12 @@ import com.example.vehicam.databinding.ActivityMainBinding
 class  MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
+
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.btnTakePicture.isEnabled = false
 
         // memunculkan dialog permisson
