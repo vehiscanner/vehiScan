@@ -14,11 +14,11 @@ class  CameraActivity : AppCompatActivity() {
 
     private lateinit var bindingCamera: ActivityCameraBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
 
         bindingCamera = ActivityCameraBinding.inflate(layoutInflater)
+
         setContentView(bindingCamera.root)
 
         bindingCamera.btnTakePicture.isEnabled = false
