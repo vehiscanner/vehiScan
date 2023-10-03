@@ -15,6 +15,7 @@ class LandingPage : AppCompatActivity(){
         bindingPage= LandingPageBinding.inflate(layoutInflater)
         setContentView(bindingPage.root)
 
+
         bindingPage.getStarted.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
