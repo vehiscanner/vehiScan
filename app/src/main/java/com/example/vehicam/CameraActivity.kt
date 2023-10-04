@@ -24,6 +24,8 @@ class  CameraActivity : AppCompatActivity() {
         setContentView(bindingCamera.root)
 
         bindingCamera.btnTakePicture.isEnabled = false
+        bindingCamera.btnTakeVidio.isEnabled  = false
+        bindingCamera.btnSaveImage.isEnabled = false
 
         // memunculkan dialog permisson
         if (ActivityCompat.checkSelfPermission(
@@ -46,6 +48,8 @@ class  CameraActivity : AppCompatActivity() {
                 100)
         } else {
             bindingCamera.btnTakePicture.isEnabled = true
+            bindingCamera.btnTakeVidio.isEnabled = true
+            bindingCamera.btnSaveImage.isEnabled = true
         }
 
         // ketika button take di klik ia memanggil camera
