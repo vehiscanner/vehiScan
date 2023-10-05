@@ -39,12 +39,17 @@ class  CameraActivity : AppCompatActivity() {
             ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(this, arrayOf(
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE),
                 100)
         } else {
             bindingCamera.btnTakePicture.isEnabled = true
@@ -107,8 +112,9 @@ class  CameraActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            bindingCamera.btnTakePicture.isEnabled = false
-            bindingCamera.btnTakeVidio.isEnabled = false
+            bindingCamera.btnTakePicture.isEnabled = true
+            bindingCamera.btnTakeVidio.isEnabled = true
+            bindingCamera.btnSaveImage.isEnabled = true
         }
     }
 }

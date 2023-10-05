@@ -71,7 +71,7 @@
         android:layout_height="50dp"
         android:layout_centerInParent="true"
         android:background="@drawable/btn_rounded"
-        android:text="Save Image"
+        android:text="Save"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
