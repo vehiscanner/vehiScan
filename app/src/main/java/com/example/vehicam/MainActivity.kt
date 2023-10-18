@@ -10,16 +10,16 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.example.vehicam.databinding.ActivityCameraBinding
+import com.example.vehicam.databinding.MainActivityBinding
 
-class  CameraActivity : AppCompatActivity() {
+class  MainActivity : AppCompatActivity() {
 
-    private lateinit var bindingCamera: ActivityCameraBinding
+    private lateinit var bindingCamera: MainActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
 
-        bindingCamera = ActivityCameraBinding.inflate(layoutInflater)
+        bindingCamera = MainActivityBinding.inflate(layoutInflater)
 
         setContentView(bindingCamera.root)
 
