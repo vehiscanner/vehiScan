@@ -97,146 +97,30 @@ class MainActivity : AppCompatActivity() {
                     bindingCamera.imgView.setImageBitmap(pictureUri)
                     bindingCamera.imgView.visibility = View.VISIBLE
                     bindingCamera.videoView.visibility = View.GONE
-
-                    val requestBody = MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart(
-                            "image",
-                            "image.jpg",
-                            createRequestBodyFromBitmap(pictureUri)
-                        )
-                        .build()
-
-                    val request = Request.Builder()
-                        .url("https://qb5tvr8s-5000.asse.devtunnels.ms/predict")
-                        .post(requestBody)
-                        .build()
-
-                    val client = OkHttpClient()
-                    client.newCall(request).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            runOnUiThread {
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Request failed: ${e.message}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-
-                        override fun onResponse(call: Call, response: Response) {
-                            val responseBody = response.body?.string()
-
-                            runOnUiThread {
-                                if (response.isSuccessful) {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Response: $responseBody",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Request failed: ${response.code}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                        }
-                    })
                 }
                 102 -> {
                     val videoUri: Uri? = data?.data
-                    val videoPath = getRealPathFromUri(videoUri)
-
-                    if (videoPath != null) {
-                        val videoFile = File(videoPath)
-
-                        bindingCamera.videoView.setVideoURI(videoUri)
+                    bindingCamera.videoView.setVideoURI(videoUri)
+                    bindingCamera.videoView.start()
+                    bindingCamera.videoView.visibility = View.VISIBLE
+                    bindingCamera.imgView.visibility = View.GONE
+                    // Memutar vidio lagi ketika vidio selesai
+                    bindingCamera.videoView.setOnCompletionListener {
+                        bindingCamera.videoView.seekTo(0)
                         bindingCamera.videoView.start()
-                        bindingCamera.videoView.visibility = View.VISIBLE
-                        bindingCamera.imgView.visibility = View.GONE
-
-                        val request = Request.Builder()
-                            .url("https://qb5tvr8s-5000.asse.devtunnels.ms/predict")
-                            .post(
-                                MultipartBody.Builder()
-                                    .setType(MultipartBody.FORM)
-                                    .addFormDataPart(
-                                        "video",
-                                        "video.mp4",
-                                        RequestBody.create("video/mp4".toMediaTypeOrNull(), videoFile)
-                                    )
-                                    .build()
-                            )
-                            .build()
-
-                        val client = OkHttpClient()
-                        client.newCall(request).enqueue(object : okhttp3.Callback {
-                            override fun onFailure(call: Call, e: IOException) {
-                                runOnUiThread {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Request failed: ${e.message}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-
-                            override fun onResponse(call: Call, response: Response) {
-                                val responseBody = response.body?.string()
-
-                                runOnUiThread {
-                                    if (response.isSuccessful) {
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Response: $responseBody",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    } else {
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Request failed: ${response.code}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                }
-                            }
-                        })
-                    } else {
-                        Toast.makeText(
-                            applicationContext,
-                            "Failed to get video file path.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    }
+                    // Menambahkan jeda untuk memutar vidio
+                    bindingCamera.videoView.setOnClickListener {
+                        if (bindingCamera.videoView.isPlaying) {
+                            bindingCamera.videoView.pause()
+                        } else {
+                            bindingCamera.videoView.start()
+                        }
                     }
                 }
-                // ...
             }
         }
     }
-    private fun getRealPathFromUri(uri: Uri?): String? {
-        var realPath: String? = null
-        uri?.let {
-            val projection = arrayOf(MediaStore.Images.Media.DATA)
-            val cursor = contentResolver.query(uri, projection, null, null, null)
-            cursor?.use {
-                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                if (it.moveToFirst()) {
-                    realPath = it.getString(columnIndex)
-                }
-            }
-        }
-        return realPath
-    }
-
-    private fun createRequestBodyFromBitmap(bitmap: Bitmap?): RequestBody {
-        val stream = ByteArrayOutputStream()
-        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-        val byteArray = stream.toByteArray()
-        return RequestBody.create("image/jpeg".toMediaTypeOrNull(), byteArray)
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
