@@ -9,62 +9,72 @@
     tools:layout_editor_absoluteX="4dp"
     tools:layout_editor_absoluteY="37dp">
 
+    <EditText
+        android:id="@+id/descriptionEt"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="28dp"
+        android:backgroundTint="@color/purple_200"
+        android:hint="Description"
+        android:textColor="@color/white"
+        android:textColorHint="@color/purple_200"
+        app:layout_constraintBottom_toTopOf="@+id/btn_save_video"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.552"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/titleEt"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/purple_200"
+        android:hint="Title"
+        android:textColor="@color/white"
+        android:textColorHint="@color/purple_200"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionEt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.552"
+        app:layout_constraintStart_toStartOf="parent"></EditText>
+
     <VideoView
         android:id="@+id/video_View"
-        android:layout_width="170dp"
-        android:layout_height="250dp"
-        android:layout_above="@id/btn_take_picture"
+        android:layout_width="292dp"
+        android:layout_height="297dp"
         android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_take_vidio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.103" />
+        app:layout_constraintVertical_bias="0.313" />
 
     <Button
         android:id="@+id/btn_take_vidio"
         android:layout_width="160dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="48dp"
         android:background="@drawable/btn_rounded"
         android:text="Take a Vidio"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/titleEt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_take_picture"
-        app:layout_constraintVertical_bias="0.158" />
-    <Button
-        android:id="@+id/btn_take_picture"
-        android:layout_width="160dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_rounded"
-        android:text="Take a Picture"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.582" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_save_image"
+        android:id="@+id/btn_save_video"
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:layout_centerInParent="true"
+        android:layout_marginBottom="48dp"
         android:background="@drawable/btn_rounded"
         android:text="Save"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.828" />
-
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

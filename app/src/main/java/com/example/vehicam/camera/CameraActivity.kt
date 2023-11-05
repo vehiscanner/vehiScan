@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +17,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.vehicam.databinding.MainActivityBinding
+import com.example.vehicam.db.Recording
+import com.example.vehicam.helper.DBHelper
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,12 +34,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var cameraPermission: Array<String>
     private lateinit var storagePermission: Array<String>
+    private lateinit var pTitleEt:EditText
+    private lateinit var pDescriptionEt:EditText
     private lateinit var pVideoView: VideoView
     private var videoUri:Uri?=null
+    private var title:String?=""
+    private var description:String?=""
+
+    lateinit var dbHelper: DBHelper
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
+
+        dbHelper = DBHelper(this)
 
         bindingCamera = MainActivityBinding.inflate(layoutInflater)
         setContentView(bindingCamera.root)
@@ -45,13 +60,42 @@ class MainActivity : AppCompatActivity() {
         )
 
         storagePermission  = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
         )
 
         bindingCamera.btnTakeVidio.setOnClickListener{
             videoPickDialog()
         }
+
+        bindingCamera.btnSaveVideo.setOnClickListener{
+            inputData()
+        }
+
+        pTitleEt = bindingCamera.titleEt
+        pDescriptionEt = bindingCamera.descriptionEt
     }
+
+    private fun inputData() {
+        val videoTitle = pTitleEt.text.toString().trim()
+        val videoDescription = pDescriptionEt.text.toString().trim()
+        val vidioPath = videoUri.toString()
+        val videoTimeStamp  = getCurrentTimestamp()
+        val videoId = UUID.randomUUID().toString()
+
+        val recording = Recording(
+            video_id = videoId,
+            video_title = videoTitle,
+            video_description = videoDescription,
+            video_path = vidioPath,
+            video_timestamp = videoTimeStamp
+        )
+
+        val id = dbHelper.addRecording(recording)
+
+        Toast.makeText(this,"Record Added  ID $videoId", Toast.LENGTH_SHORT).show()
+    }
+
 
     private fun videoPickDialog() {
         val options= arrayOf("Camera", "Gallery")
@@ -167,5 +211,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    private fun getCurrentTimestamp(): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        return sdf.format(Date())
+    }
 }
